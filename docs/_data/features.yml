@@ -1,0 +1,68 @@
+# Comparison dimensions. Each store in stores.yml records a level
+# (see levels.yml) and an optional short note for every key below.
+- group: Query & data standards
+  items:
+    - key: sparql_query
+      label: SPARQL 1.1 Query
+    - key: sparql_update
+      label: SPARQL 1.1 Update
+    - key: gsp
+      label: SPARQL 1.1 Graph Store Protocol
+    - key: federation
+      label: Federated query (SERVICE)
+    - key: rdf_star
+      label: RDF-star / SPARQL-star
+    - key: rdf12
+      label: RDF 1.2 / SPARQL 1.2 (triple terms)
+    - key: jsonld
+      label: JSON-LD
+    - key: geosparql
+      label: GeoSPARQL
+
+- group: Validation & reasoning
+  items:
+    - key: shacl
+      label: SHACL validation
+    - key: shex
+      label: ShEx validation
+    - key: rdfs
+      label: RDFS inference
+    - key: owl
+      label: OWL inference
+    - key: rules
+      label: Custom rules
+
+- group: Search & AI
+  items:
+    - key: fulltext
+      label: Full-text search
+    - key: vector
+      label: Vector / similarity search
+    - key: llm
+      label: LLM / GraphRAG tooling
+
+- group: Scale & operations
+  items:
+    - key: acid
+      label: ACID transactions
+    - key: ha
+      label: Replication / high availability
+    - key: sharding
+      label: Horizontal scale-out (sharding)
+    - key: bulk_load
+      label: Bulk loader
+    - key: admin_ui
+      label: Web admin / query UI
+    - key: docker
+      label: Official container image
+    - key: managed
+      label: Vendor-managed cloud service
+
+- group: Integration
+  items:
+    - key: sql
+      label: SQL access / data virtualization
+    - key: java_api
+      label: Java API
+    - key: python
+      label: Python client

@@ -1,0 +1,104 @@
+---
+layout: default
+title: Comparison matrix
+description: Side-by-side feature matrix of the RDF triple stores in this survey.
+wide: true
+---
+<header class="page-head">
+  <h1>Comparison matrix</h1>
+</header>
+
+<div class="matrix-tools">
+  <ul class="legend" aria-label="Legend">
+    {%- for l in site.data.levels %}
+    <li><span class="lvl lvl-{{ l[0] }}">{{ l[1].label }}</span> {{ l[1].description }}</li>
+    {%- endfor %}
+  </ul>
+  <label class="toggle"><input type="checkbox" id="diff-only"> Only show rows that differ</label>
+</div>
+
+<div class="matrix-scroll">
+  <table class="matrix" id="matrix" style="min-width: {{ site.data.stores | size | times: 175 | plus: 240 }}px">
+    <colgroup>
+      <col class="feat">
+      {%- for s in site.data.stores %}<col>{% endfor %}
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col">Capability</th>
+        {%- for s in site.data.stores %}
+        <th scope="col" id="col-{{ s.id }}"><a href="{{ s.page | relative_url }}">{{ s.short }}</a><span class="sub">{{ s.vendor_short }}</span></th>
+        {%- endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="group"><th colspan="{{ site.data.stores | size | plus: 1 }}">At a glance</th></tr>
+      <tr>
+        <th scope="row">Category</th>
+        {%- for s in site.data.stores %}<td class="text">{{ s.category }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">License</th>
+        {%- for s in site.data.stores %}<td class="text">{{ s.license }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Free to use</th>
+        {%- for s in site.data.stores %}<td class="text">{{ s.free_option }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Latest release</th>
+        {%- for s in site.data.stores %}<td class="text"><code>{{ s.version }}</code>{% if s.released %}<span class="note">{{ s.released }}</span>{% endif %}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">GitHub stars</th>
+        {%- for s in site.data.stores %}
+        <td class="text">{% if s.stars_url %}<a href="{{ s.stars_url }}">{{ s.stars }}</a>{% else %}{{ s.stars }}{% endif %}{% if s.stars_note %}<span class="note">{{ s.stars_note }}</span>{% endif %}</td>
+        {%- endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Written in</th>
+        {%- for s in site.data.stores %}<td class="text">{{ s.language }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Deployment</th>
+        {%- for s in site.data.stores %}<td class="text">{{ s.deployment }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Reasoning strategy</th>
+        {%- for s in site.data.stores %}<td class="text">{{ s.reasoning_strategy }}</td>{% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Published scale</th>
+        {%- for s in site.data.stores %}<td class="text">{{ s.scale }}</td>{% endfor %}
+      </tr>
+      {%- for g in site.data.features %}
+      <tr class="group"><th colspan="{{ site.data.stores | size | plus: 1 }}">{{ g.group }}</th></tr>
+      {%- for f in g.items %}
+      <tr class="feature">
+        <th scope="row">{{ f.label }}</th>
+        {%- for s in site.data.stores %}
+        {%- assign v = s.features[f.key] %}
+        {%- assign lvl = v.level | default: "unknown" %}
+        <td data-level="{{ lvl }}"><span class="lvl lvl-{{ lvl }}">{{ site.data.levels[lvl].label }}</span>{% if v.note %}<span class="note">{{ v.note }}</span>{% endif %}</td>
+        {%- endfor %}
+      </tr>
+      {%- endfor %}
+      {%- endfor %}
+    </tbody>
+  </table>
+</div>
+
+<p class="muted" style="margin-top:1rem">Levels describe the generally available product as documented by its steward on {{ site.track.checked | date: "%B %-d, %Y" }}. See the <a href="{{ '/methodology/' | relative_url }}">methodology</a> for how each level is assigned.</p>
+
+<script>
+  (function () {
+    var table = document.getElementById('matrix');
+    table.querySelectorAll('tr.feature').forEach(function (row) {
+      var levels = Array.prototype.map.call(row.querySelectorAll('td'), function (td) { return td.getAttribute('data-level'); });
+      if (levels.every(function (l) { return l === levels[0]; })) row.classList.add('same');
+    });
+    document.getElementById('diff-only').addEventListener('change', function (e) {
+      table.classList.toggle('diff-only', e.target.checked);
+    });
+  })();
+</script>

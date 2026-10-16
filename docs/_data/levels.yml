@@ -1,0 +1,20 @@
+# Support levels used in the comparison matrix.
+# Keys are deliberately not yes/no, which YAML would read as booleans.
+full:
+  label: "Yes"
+  description: Supported natively in the generally available product.
+partial:
+  label: Partial
+  description: Supported with notable gaps, via an add-on, or only in a limited form.
+paid:
+  label: Paid tier
+  description: Available only in a commercial or enterprise edition.
+preview:
+  label: Preview
+  description: Experimental, beta, or behind a feature flag.
+none:
+  label: "No"
+  description: Not supported.
+unknown:
+  label: Unverified
+  description: Not yet confirmed from primary sources.

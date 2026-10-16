@@ -1,0 +1,792 @@
+# Store data. One entry per store; the comparison matrix, store
+# cards and per-store capability summaries are all generated from this file.
+# Feature levels: full | partial | paid | preview | none | unknown (see levels.yml).
+# Notes should be short; put the detail and sources on the store's page.
+
+- id: jena-tdb2
+  name: Apache Jena TDB2
+  short: Jena TDB2
+  vendor: Apache Software Foundation
+  vendor_short: Apache
+  page: /stores/jena-tdb2/
+  category: Open source
+  tags: [Open source, Embeddable, Java]
+  tagline: "Apache Jena's native transactional store, embedded through the Java API or served over HTTP by Fuseki. Fully open, standards-first."
+  best_for: "Open, standards-first stacks; Java embedding; single-node research and production"
+  license: Apache 2.0
+  free_option: "Everything; there is no paid edition"
+  version: "6.2.0"
+  released: "2026-07-31"
+  language: Java (requires Java 21)
+  deployment: "Embedded Java library, or behind the Fuseki server; Dockerfile kit, no published image"
+  reasoning_strategy: "In-memory rule engine (forward, backward or hybrid); query-time RDFS for datasets"
+  scale: "Wikidata, 16.7B triples, loaded into TDB2"
+  homepage: https://jena.apache.org/
+  docs: https://jena.apache.org/documentation/tdb2/
+  repo: https://github.com/apache/jena
+  stars: "1,474"
+  stars_url: https://github.com/apache/jena
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full }
+    sparql_update: { level: full }
+    gsp: { level: full, note: "Plus quad extensions" }
+    federation: { level: full, note: "Service Enhancer adds caching and bulk requests" }
+    rdf_star: { level: partial, note: "Superseded by RDF 1.2 in Jena 6; the community-group mode is archived" }
+    rdf12: { level: full, note: "RDF 1.2 syntaxes (6.1) and SPARQL 1.2 triple terms" }
+    jsonld: { level: full, note: "JSON-LD 1.1 via Titanium" }
+    geosparql: { level: full, note: "GeoSPARQL 1.0, all conformance classes; Fuseki module" }
+    shacl: { level: full, note: "Core + SPARQL constraints; Fuseki /shacl endpoint" }
+    shex: { level: partial, note: "ShExC only; no semantic actions" }
+    rdfs: { level: full }
+    owl: { level: partial, note: "OWL Micro/Mini/Full rule subsets; incomplete and in-memory" }
+    rules: { level: full, note: "Forward, backward and hybrid rule engine" }
+    fulltext: { level: full, note: "jena-text (Lucene)" }
+    vector: { level: none }
+    llm: { level: none }
+    acid: { level: full, note: "Serializable; multiple readers, single writer" }
+    ha: { level: partial, note: "Not built in; external RDF Delta project" }
+    sharding: { level: none }
+    bulk_load: { level: full, note: "tdb2.tdbloader; tdb2.xloader (Linux/Unix only)" }
+    admin_ui: { level: full, note: "Fuseki UI (YASQE/YASR)" }
+    docker: { level: partial, note: "Dockerfile kit only; community images" }
+    managed: { level: none, note: "Third-party marketplace images only" }
+    sql: { level: none }
+    java_api: { level: full, note: "Native Java framework" }
+    python: { level: partial, note: "Generic SPARQL clients (RDFLib, SPARQLWrapper)" }
+
+- id: qlever
+  name: QLever
+  short: QLever
+  vendor: University of Freiburg (Algorithms and Data Structures group)
+  vendor_short: Uni Freiburg
+  page: /stores/qlever/
+  category: Open source
+  tags: [Open source, Research, Very large data]
+  tagline: "A C++ SPARQL engine built to query hundreds of billions of triples on one machine. Chosen to replace Blazegraph behind the Wikidata Query Service."
+  best_for: "Very large, mostly-read datasets on a single server; big public endpoints"
+  license: Apache 2.0
+  free_option: "Everything; there is no paid edition"
+  version: "Rolling builds"
+  released: "Docker image per commit; qlever CLI 0.6.0 (2026-08-13)"
+  language: C++
+  deployment: "Docker image, native packages (Debian/Ubuntu, macOS), driven by the qlever CLI"
+  reasoning_strategy: "None built in"
+  scale: "Wikidata (~20B triples) and UniProt endpoints; 1T-triple demo"
+  homepage: https://qlever.dev/
+  docs: https://docs.qlever.dev/
+  repo: https://github.com/ad-freiburg/qlever
+  stars: "921"
+  stars_url: https://github.com/ad-freiburg/qlever
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "SPARQL 1.1 compliant since June 2025; W3C tests run per commit" }
+    sparql_update: { level: full, note: "Since 2025; held as delta triples, persistence opt-in" }
+    gsp: { level: full }
+    federation: { level: full }
+    rdf_star: { level: none }
+    rdf12: { level: none, note: "SPARQL 1.2 is an open issue" }
+    jsonld: { level: unknown, note: "Not documented as an input format" }
+    geosparql: { level: partial, note: "geof: functions, sf* relations and spatial joins; no conformance class claimed" }
+    shacl: { level: none }
+    shex: { level: none }
+    rdfs: { level: none }
+    owl: { level: none }
+    rules: { level: none }
+    fulltext: { level: full, note: "SPARQL+Text: word/entity co-occurrence search" }
+    vector: { level: none }
+    llm: { level: none }
+    acid: { level: partial, note: "Updates in a delta store; not persistent unless configured" }
+    ha: { level: none, note: "Single node" }
+    sharding: { level: none }
+    bulk_load: { level: full, note: "External-memory index build via the qlever CLI" }
+    admin_ui: { level: full, note: "QLever UI with context-sensitive autocompletion" }
+    docker: { level: full, note: "adfreiburg/qlever, rebuilt per commit" }
+    managed: { level: none, note: "Public demo endpoints only" }
+    sql: { level: none }
+    java_api: { level: none, note: "HTTP only" }
+    python: { level: partial, note: "qlever CLI is Python; queries via generic SPARQL clients" }
+
+- id: hdt
+  name: RDF-HDT
+  short: RDF-HDT
+  vendor: rdfhdt community (originally Univ. of Valladolid, Univ. of Chile, DERI Galway)
+  vendor_short: rdfhdt
+  page: /stores/hdt/
+  category: Open format + libraries
+  tags: [Open source, Read-only, Compressed]
+  tagline: "A compressed, self-indexed binary RDF format, queried in place through libraries, Jena, Triple Pattern Fragments or the qEndpoint server."
+  best_for: "Publishing and sharing large static datasets; low-cost read-only endpoints"
+  license: "LGPL (libraries); qEndpoint GPL-3.0 or commercial"
+  free_option: "Everything; commercial licence offered for qEndpoint"
+  version: "hdt-java 3.0.10 / qEndpoint 2.5.4"
+  released: "2023-09-12 / 2025-12-18"
+  language: "C++ and Java (Python and Node.js bindings)"
+  deployment: "HDT files plus a library, Jena (hdt-jena), the LDF server, or qEndpoint (Docker)"
+  reasoning_strategy: "None built in"
+  scale: "LOD-a-lot: 28B triples in one HDT file"
+  homepage: https://www.rdfhdt.org/
+  docs: https://www.w3.org/submissions/2011/SUBM-HDT-20110330/
+  repo: https://github.com/rdfhdt
+  stars: "127"
+  stars_url: https://github.com/rdfhdt/hdt-cpp
+  stars_note: "hdt-cpp. hdt-java has 104. qEndpoint, a separate project, has 109."
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "Via qEndpoint (RDF4J) or Jena ARQ over hdt-jena" }
+    sparql_update: { level: partial, note: "Files are read-only; qEndpoint adds a delta store merged into new HDT" }
+    gsp: { level: unknown, note: "Not documented for qEndpoint" }
+    federation: { level: full, note: "Through the host SPARQL engine" }
+    rdf_star: { level: none }
+    rdf12: { level: none }
+    jsonld: { level: unknown, note: "hdt-cpp reads N-Triples, N-Quads, Turtle and TriG; Java tools vary" }
+    geosparql: { level: partial, note: "qEndpoint only" }
+    shacl: { level: none }
+    shex: { level: none }
+    rdfs: { level: none }
+    owl: { level: none }
+    rules: { level: none }
+    fulltext: { level: partial, note: "qEndpoint only" }
+    vector: { level: none }
+    llm: { level: none }
+    acid: { level: none, note: "Immutable files" }
+    ha: { level: partial, note: "No clustering, but immutable files are trivial to replicate" }
+    sharding: { level: none }
+    bulk_load: { level: full, note: "rdf2hdt conversion (C++ or Java)" }
+    admin_ui: { level: partial, note: "qEndpoint web front end only" }
+    docker: { level: partial, note: "qEndpoint images only" }
+    managed: { level: none }
+    sql: { level: none }
+    java_api: { level: full, note: "hdt-java API and Jena Graph" }
+    python: { level: full, note: "rdflib-hdt" }
+
+- id: virtuoso
+  name: OpenLink Virtuoso
+  short: Virtuoso
+  vendor: OpenLink Software
+  vendor_short: OpenLink Software
+  page: /stores/virtuoso/
+  category: Open source + commercial
+  tags: [Open source, Commercial, SQL + RDF]
+  tagline: "A C-based relational engine with a column-wise quad store, behind some of the largest public SPARQL endpoints."
+  best_for: "Very large, read-heavy endpoints; mixed SQL + RDF workloads"
+  license: "GPLv2 (Open Source Edition); commercial (Enterprise)"
+  free_option: "Open Source Edition, single server, no HA"
+  version: "7.2.17 / 08.03.3335"
+  released: "Open source / Enterprise, May 2026"
+  language: C
+  deployment: "Native binaries (Linux, macOS, Windows), vendor Docker images, AWS/Azure Marketplace"
+  reasoning_strategy: "Query-time rule sets (RDFS and a subset of OWL)"
+  scale: "DBpedia public endpoint; vendor cites 100B+ triples per server"
+  homepage: https://virtuoso.openlinksw.com/
+  docs: https://docs.openlinksw.com/virtuoso/
+  repo: https://github.com/openlink/virtuoso-opensource
+  stars: "975"
+  stars_url: https://github.com/openlink/virtuoso-opensource
+  stars_note: "Open Source Edition"
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "Third-party tests report some conformance gaps" }
+    sparql_update: { level: full }
+    gsp: { level: full, note: "At /sparql-graph-crud" }
+    federation: { level: full, note: "Requires the SPARQL_SELECT_FED role" }
+    rdf_star: { level: unknown, note: "Community-group RDF-star support not documented" }
+    rdf12: { level: preview, note: "Announced June 2026; on develop/7, not yet in a VOS release" }
+    jsonld: { level: full, note: "Load since 7.2.10; 1.1 conformance not stated" }
+    geosparql: { level: partial, note: "Functions via geo plugins; conformance level not stated" }
+    shacl: { level: paid, note: "Enterprise 8.3+; not in the open-source tree" }
+    shex: { level: none }
+    rdfs: { level: full, note: "Query-time rule sets" }
+    owl: { level: partial, note: "Equivalence, inverse and inverse-functional properties; opt-in sameAs" }
+    rules: { level: paid, note: "SPIN-based custom rules" }
+    fulltext: { level: full, note: "bif:contains free-text indexes" }
+    vector: { level: unknown, note: "OPAL vector-store tools in Enterprise; VOS unclear" }
+    llm: { level: paid, note: "OPAL AI layer and MCP in Enterprise 8.3 builds" }
+    acid: { level: full, note: "Configurable isolation up to serializable" }
+    ha: { level: paid, note: "Replication and HA clustering" }
+    sharding: { level: paid, note: "Elastic cluster in 7.x Enterprise; vendor says not offered in 8.x" }
+    bulk_load: { level: full, note: "ld_dir + parallel rdf_loader_run" }
+    admin_ui: { level: full, note: "Conductor" }
+    docker: { level: full, note: "Vendor images for both editions" }
+    managed: { level: none, note: "Marketplace images are customer-run" }
+    sql: { level: full, note: "Native SQL RDBMS (ODBC/JDBC); RDF Views of external data in Enterprise" }
+    java_api: { level: full, note: "JDBC plus Jena and RDF4J providers" }
+    python: { level: partial, note: "Generic SPARQL clients or pyodbc" }
+
+- id: graphdb
+  name: GraphDB
+  short: GraphDB
+  vendor: Graphwise (formerly Ontotext)
+  vendor_short: Graphwise
+  page: /stores/graphdb/
+  category: Commercial, free edition
+  tags: [Commercial, Free edition, Reasoning]
+  tagline: "An RDF4J-based server with the most complete materialising reasoner of the group, plus search, vector and LLM connectors."
+  best_for: "Ontology-heavy graphs that need OWL/RDFS inference kept current incrementally"
+  license: "Proprietary (Workbench UI is Apache 2.0)"
+  free_option: "Free edition: 1 core, 2 concurrent queries, licence on request"
+  version: "11.5.1"
+  released: "2026-09-23"
+  language: Java (on Eclipse RDF4J; Java 21)
+  deployment: "Desktop installer, server, Docker, Helm, AWS/Azure Marketplace"
+  reasoning_strategy: "Forward-chaining materialisation with incremental retraction"
+  scale: "Sizing guide up to 30B statements (vendor)"
+  homepage: https://graphwise.ai/components/graphdb/
+  docs: https://graphdb.ontotext.com/documentation/
+  repo: https://github.com/Ontotext-AD/graphdb-workbench
+  repo_label: Workbench source
+  stars: "—"
+  stars_note: "Engine is closed source. The workbench repository has 59 stars."
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "Documented deviations, e.g. DELETE without GRAPH" }
+    sparql_update: { level: full }
+    gsp: { level: full }
+    federation: { level: full, note: "SERVICE plus internal cross-repository federation" }
+    rdf_star: { level: full, note: "Since 9.2 (community-group model)" }
+    rdf12: { level: none, note: "Not documented as of 11.5" }
+    jsonld: { level: full, note: "JSON-LD and newline-delimited JSON-LD via RDF4J" }
+    geosparql: { level: full, note: "GeoSPARQL 1.0 plugin" }
+    shacl: { level: full, note: "Transactional, via RDF4J; some property-path gaps" }
+    shex: { level: none }
+    rdfs: { level: full, note: "RDFS and RDFS-Plus rulesets" }
+    owl: { level: full, note: "OWL-Horst, OWL-Max, OWL 2 RL; OWL 2 QL partly conformant" }
+    rules: { level: full, note: "Custom .pie rulesets" }
+    fulltext: { level: full, note: "Lucene; Elasticsearch/OpenSearch/Solr connectors are Enterprise" }
+    vector: { level: partial, note: "Similarity indexes built in; vector search via Enterprise connectors" }
+    llm: { level: full, note: "Talk to Your Graph, GPT SPARQL functions, MCP server" }
+    acid: { level: full, note: "Read committed; one writer per repository" }
+    ha: { level: paid, note: "Raft cluster, Enterprise only" }
+    sharding: { level: none, note: "Every cluster node holds a full replica" }
+    bulk_load: { level: full, note: "ImportRDF (offline only)" }
+    admin_ui: { level: full, note: "Workbench (open source)" }
+    docker: { level: full, note: "amd64 and arm64 images, plus a Helm chart" }
+    managed: { level: none, note: "No managed service found; marketplace images are customer-run" }
+    sql: { level: full, note: "Ontop virtual repositories; SQL views over JDBC" }
+    java_api: { level: full, note: "RDF4J API" }
+    python: { level: full, note: "Native Python client; RDFLib GraphDBClient" }
+
+- id: stardog
+  name: Stardog
+  short: Stardog
+  vendor: Stardog Union
+  vendor_short: Stardog Union
+  page: /stores/stardog/
+  category: Commercial, free cloud tier
+  tags: [Commercial, Managed cloud, Virtualization]
+  tagline: "A knowledge graph platform with query-time OWL reasoning and virtual graphs over SQL, NoSQL and file sources."
+  best_for: "Unifying existing relational and NoSQL data under an ontology without copying it"
+  license: "Proprietary (client libraries open source)"
+  free_option: "Stardog Cloud Free: 1M edges, 3 databases"
+  version: "12.2.0"
+  released: "2026-10-14"
+  language: Java + RocksDB (requires Java 21)
+  deployment: "Docker, packages, Helm, AWS/Azure Marketplace, Stardog Cloud"
+  reasoning_strategy: "Query-time rewriting; nothing materialised"
+  scale: "Wikidata, 16.7B triples, on one node (vendor)"
+  homepage: https://www.stardog.com/
+  docs: https://docs.stardog.com/
+  repo: https://github.com/stardog-union
+  repo_label: Client source
+  stars: "—"
+  stars_note: "Engine is closed source"
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full }
+    sparql_update: { level: full }
+    gsp: { level: full }
+    federation: { level: full, note: "Including variable endpoints" }
+    rdf_star: { level: partial, note: "Edge properties: no nesting, opt-in per database, discouraged for new projects" }
+    rdf12: { level: none }
+    jsonld: { level: full, note: "1.1 conformance not stated" }
+    geosparql: { level: full, note: "Opt-in per database" }
+    shacl: { level: full, note: "Core + SHACL-SPARQL; no Advanced Features" }
+    shex: { level: none, note: "Not found in documentation" }
+    rdfs: { level: full }
+    owl: { level: full, note: "OWL 2 QL, RL and EL at query time" }
+    rules: { level: full, note: "SWRL-style rules; Stride Datalog reasoner in beta" }
+    fulltext: { level: full, note: "Lucene (textMatch)" }
+    vector: { level: unknown, note: "Not found in documentation" }
+    llm: { level: full, note: "Voicebox (natural language to SPARQL); MCP server for Cloud" }
+    acid: { level: full, note: "Snapshot by default; serializable optional" }
+    ha: { level: paid, note: "ZooKeeper-coordinated cluster, Enterprise" }
+    sharding: { level: none, note: "Every cluster node holds a full replica" }
+    bulk_load: { level: full, note: "About 0.5–1M triples/s (vendor)" }
+    admin_ui: { level: full, note: "Studio, Explorer, Designer" }
+    docker: { level: full, note: "amd64; ARM since 12.2" }
+    managed: { level: full, note: "Stardog Cloud (free tier and Enterprise)" }
+    sql: { level: full, note: "Virtual graphs over SQL/NoSQL/CSV; BI server (MySQL protocol); full connector set needs Enterprise" }
+    java_api: { level: full, note: "SNARL and HTTP clients" }
+    python: { level: full, note: "pystardog" }
+
+- id: neptune
+  name: Amazon Neptune
+  short: Neptune
+  vendor: Amazon Web Services
+  vendor_short: AWS
+  page: /stores/neptune/
+  category: Managed cloud service
+  tags: [Managed cloud, Commercial]
+  tagline: "AWS's fully managed graph database, serving SPARQL 1.1 and property-graph queries from one replicated cluster."
+  best_for: "Teams already on AWS who want highly available SPARQL without running servers"
+  license: Proprietary managed service
+  free_option: "30-day free trial (small instance)"
+  version: "Engine 1.5.0.0"
+  released: "2026-10-13"
+  language: Not disclosed
+  deployment: "AWS only: provisioned or Serverless; no self-hosted edition"
+  reasoning_strategy: "None built in"
+  scale: "Up to 128 TiB per cluster; 1 writer + 15 read replicas"
+  homepage: https://aws.amazon.com/neptune/
+  docs: https://docs.aws.amazon.com/neptune/latest/userguide/
+  repo: https://github.com/aws/graph-notebook
+  repo_label: Tools source
+  stars: "—"
+  stars_note: "Engine is closed source. graph-notebook has 824 stars."
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full }
+    sparql_update: { level: full }
+    gsp: { level: full, note: "Since engine 1.0.5.0" }
+    federation: { level: partial, note: "Read-only; endpoints inside the VPC only" }
+    rdf_star: { level: none }
+    rdf12: { level: none }
+    jsonld: { level: partial, note: "SPARQL LOAD and CONSTRUCT output; not in the bulk loader" }
+    geosparql: { level: none, note: "Geospatial functions are openCypher-only" }
+    shacl: { level: none }
+    shex: { level: none }
+    rdfs: { level: none }
+    owl: { level: none }
+    rules: { level: none }
+    fulltext: { level: partial, note: "Via Amazon OpenSearch Service and Neptune Streams" }
+    vector: { level: none, note: "Only in Neptune Analytics, which has no SPARQL" }
+    llm: { level: none, note: "GraphRAG features target Neptune Analytics / openCypher" }
+    acid: { level: full, note: "Snapshot reads; read-committed writes with range locks" }
+    ha: { level: full, note: "6 copies across 3 AZs; up to 15 replicas; Global Database" }
+    sharding: { level: none, note: "Single writer per cluster" }
+    bulk_load: { level: full, note: "S3 loader: N-Triples, N-Quads, Turtle, RDF/XML" }
+    admin_ui: { level: full, note: "AWS console, Workbench notebooks, Graph Explorer" }
+    docker: { level: none, note: "Managed service only" }
+    managed: { level: full }
+    sql: { level: none }
+    java_api: { level: partial, note: "Standard RDF4J/Jena HTTP clients plus a SigV4 signer" }
+    python: { level: partial, note: "Generic SPARQL clients plus SigV4; boto3 for management" }
+
+- id: allegrograph
+  name: AllegroGraph
+  short: AllegroGraph
+  vendor: Franz Inc.
+  vendor_short: Franz
+  page: /stores/allegrograph/
+  category: Commercial, free edition
+  tags: [Commercial, Free edition, Sharding]
+  tagline: "Franz's long-running commercial triple store, with query-time RDFS++ reasoning, FedShard partitioning, and the GraphTalker agent."
+  best_for: "Partitioned knowledge graphs that need reasoning, geospatial or temporal queries, and a natural-language agent"
+  license: Proprietary
+  free_option: "Free edition: under 5 million triples, no licence key"
+  version: "9.1.0"
+  released: "2026-10-15"
+  language: "Common Lisp (Allegro CL; SMP build only)"
+  deployment: "Linux x86-64 packages, official Docker image, WSL; AllegroGraph.cloud; AWS and Azure Marketplace"
+  reasoning_strategy: "Query-time RDFS++; optional OWL 2 RL materializer"
+  scale: "1 trillion triples loaded (vendor, 2011); product page says billions on disk"
+  homepage: https://allegrograph.com/
+  docs: https://franz.com/agraph/support/documentation/
+  repo: https://github.com/franzinc
+  repo_label: Examples and clients
+  stars: "—"
+  stars_note: "Engine is closed source"
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "Non-canonical numeric and date literals do not round-trip" }
+    sparql_update: { level: full }
+    gsp: { level: none, note: "SPARQL Query and Update cover the same operations" }
+    federation: { level: full, note: "SERVICE, plus read-only federation of AllegroGraph repositories" }
+    rdf_star: { level: preview, note: "Opt-in per repository; passes the community test suite; vendor calls it experimental" }
+    rdf12: { level: partial, note: "Product page names SPARQL 1.2; the RDF-star doc still describes a draft and not triple terms" }
+    jsonld: { level: full, note: "Load format; JSON-LD 1.1 conformance not stated" }
+    geosparql: { level: partial, note: "SF, Egenhofer and RCC8, plus WKT and GeoJSON; no conformance class stated" }
+    shacl: { level: full, note: "Core and SHACL-SPARQL; owl:imports is not followed" }
+    shex: { level: none, note: "Not found in documentation" }
+    rdfs: { level: full, note: "Dynamic RDFS++ at query time, or materialised" }
+    owl: { level: partial, note: "RDFS++ is a small OWL subset; OWL 2 RL materializer skips some rules" }
+    rules: { level: full, note: "Prolog, plus user-defined SPARQL magic properties" }
+    fulltext: { level: full, note: "Freetext indexes; optional Solr" }
+    vector: { level: full, note: "Native vector stores since 8.2; v2 (9.1) keeps embeddings in the string table for MMR" }
+    llm: { level: full, note: "GraphTalker 2.0 (Claude); Python MCP server" }
+    acid: { level: full, note: "Snapshot isolation; commit waits for the transaction log" }
+    ha: { level: full, note: "Multi-master replication and primary/replica replication" }
+    sharding: { level: full, note: "FedShard: partition key, parallel query; a shard cannot see other shards' data" }
+    bulk_load: { level: full, note: "agtool load" }
+    admin_ui: { level: full, note: "WebView, plus Gruff in the browser and on the desktop" }
+    docker: { level: full, note: "franzinc/agraph; separate image for MMR on Kubernetes" }
+    managed: { level: partial, note: "AllegroGraph.cloud free tier; hosted Enterprise listed as coming soon" }
+    sql: { level: none, note: "No SQL interface found; MongoDB integration is separate" }
+    java_api: { level: full, note: "Sesame and Jena clients" }
+    python: { level: full, note: "agraph-python, including GraphTalker and an MCP server" }
+
+- id: blazegraph
+  name: Blazegraph
+  short: Blazegraph
+  vendor: SYSTAP, LLC
+  vendor_short: SYSTAP
+  page: /stores/blazegraph/
+  category: Open source, archived
+  tags: [Open source, Archived, Java]
+  tagline: "The Java graph database that ran the Wikidata Query Service. Last stable release is 2.1.5, and the GitHub repository is archived."
+  best_for: "Existing Blazegraph deployments, and the published design of its replication and scale-out modes"
+  license: "GPLv2; a commercial licence was also offered"
+  free_option: "GPLv2 edition includes the server, replication and scale-out code"
+  version: "2.1.5"
+  released: "2019-03-19"
+  language: Java
+  deployment: "Embedded library, executable jar, WAR or tar.gz; HAJournalServer; scale-out cluster. No official Docker image."
+  reasoning_strategy: "Materialised RDFS+ with incremental truth maintenance"
+  scale: "Up to 50 billion edges on one machine (project claim)"
+  homepage: https://github.com/blazegraph/database
+  docs: https://github.com/blazegraph/database/wiki
+  repo: https://github.com/blazegraph/database
+  stars: "987"
+  stars_url: https://github.com/blazegraph/database
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "SPARQL 1.1 Query and Service Description" }
+    sparql_update: { level: full, note: "Includes commands that enable, disable, create and drop entailments" }
+    gsp: { level: none, note: "Not listed among the supported SPARQL 1.1 specifications" }
+    federation: { level: full, note: "SPARQL 1.1 SERVICE, vectored to remote endpoints" }
+    rdf_star: { level: none }
+    rdf12: { level: none }
+    jsonld: { level: unknown, note: "Not documented as a load format" }
+    geosparql: { level: none, note: "Custom geospatial SERVICE; GeoSPARQL was described as future work" }
+    shacl: { level: none, note: "Not found in the 2.1 documentation" }
+    shex: { level: none, note: "Not found in the 2.1 documentation" }
+    rdfs: { level: full, note: "RDFS+ materialised; quads mode has no inference out of the box" }
+    owl: { level: partial, note: "RDFS plus a small OWL subset" }
+    rules: { level: partial, note: "Custom rules expressed as conjunctive queries" }
+    fulltext: { level: full, note: "Built-in token index, or an external search service" }
+    vector: { level: none }
+    llm: { level: none }
+    acid: { level: partial, note: "Unisolated journal writes are described as ACID; full read/write transactions are optional. Scale-out is shard-wise ACID." }
+    ha: { level: full, note: "HAJournalServer: quorum, ZooKeeper, two-phase commit" }
+    sharding: { level: full, note: "Horizontally sharded federation; journals migrate onto index segments" }
+    bulk_load: { level: full, note: "Batch the loader; compute closure once rather than incrementally" }
+    admin_ui: { level: full, note: "NanoSparqlServer workbench" }
+    docker: { level: none, note: "No official image" }
+    managed: { level: none }
+    sql: { level: none }
+    java_api: { level: full, note: "Sesame SAIL and Blueprints" }
+    python: { level: partial, note: "Generic SPARQL clients" }
+
+- id: rdf4j
+  name: Eclipse RDF4J
+  short: RDF4J
+  vendor: Eclipse Foundation
+  vendor_short: Eclipse
+  page: /stores/rdf4j/
+  category: Open source
+  tags: [Open source, Embeddable, Java]
+  tagline: "The Java RDF framework behind many other stores, with its own memory, native and LMDB databases and a SHACL engine."
+  best_for: "Embedding RDF in a Java application, or a small-to-medium server with SHACL and RDF 1.2"
+  license: "BSD 3-Clause (Eclipse Distribution License)"
+  free_option: "Everything; there is no paid edition"
+  version: "6.1.0"
+  released: "2026-09-12"
+  language: Java (requires Java 25)
+  deployment: "Embedded library, RDF4J Server and Workbench; Docker Compose kit in the source tree"
+  reasoning_strategy: "Forward-chaining RDFS; SPIN sail (unmaintained); SHACL on commit"
+  scale: "Native store documented up to about 100 million triples; LMDB about 120–130 bytes per quad"
+  homepage: https://rdf4j.org/
+  docs: https://rdf4j.org/documentation/
+  repo: https://github.com/eclipse-rdf4j/rdf4j
+  stars: "420"
+  stars_url: https://github.com/eclipse-rdf4j/rdf4j
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "SPARQL 1.1, plus SPARQL 1.2 grammar and evaluation in 6.0" }
+    sparql_update: { level: full }
+    gsp: { level: full, note: "Per repository, under /rdf-graphs" }
+    federation: { level: full, note: "SERVICE and the FedX federation" }
+    rdf_star: { level: partial, note: "6.0 replaced the RDF-star APIs with RDF 1.2 triple terms" }
+    rdf12: { level: full, note: "Triple terms in object position in MemoryStore, NativeStore and LMDBStore" }
+    jsonld: { level: full, note: "Listed with the mainstream RDF formats; JSON-LD 1.1 not separately claimed" }
+    geosparql: { level: partial, note: "Optional query algebra; no conformance class stated" }
+    shacl: { level: full, note: "ShaclSail validates on commit" }
+    shex: { level: none, note: "Not found in documentation" }
+    rdfs: { level: full, note: "Forward-chaining SchemaCachingRDFSInferencer; costly on large stores" }
+    owl: { level: none, note: "No OWL reasoner documented" }
+    rules: { level: partial, note: "SPIN sail is unmaintained; the custom inferencer takes one SPARQL rule" }
+    fulltext: { level: full, note: "Lucene sail and Elasticsearch sail. Solr sail removed in 6.0" }
+    vector: { level: none }
+    llm: { level: none }
+    acid: { level: full, note: "Explicit transactions; NativeStore recovery goes through a write-ahead log" }
+    ha: { level: none }
+    sharding: { level: none }
+    bulk_load: { level: partial, note: "Repository imports and the console; not a separate offline loader" }
+    admin_ui: { level: full, note: "RDF4J Workbench" }
+    docker: { level: partial, note: "Compose kit in the source tree; you build the image yourself" }
+    managed: { level: none }
+    sql: { level: none }
+    java_api: { level: full, note: "Native Java framework and SAIL API" }
+    python: { level: partial, note: "Generic SPARQL clients" }
+
+- id: oxigraph
+  name: Oxigraph
+  short: Oxigraph
+  vendor: Oxigraph project
+  vendor_short: Oxigraph
+  page: /stores/oxigraph/
+  category: Open source
+  tags: [Open source, Embeddable, Rust]
+  tagline: "A Rust graph database and RDF toolkit on RocksDB, embeddable from Rust, Python and JavaScript or run as a small SPARQL server."
+  best_for: "Embedding SPARQL in Rust, Python or JavaScript, or a single-node server with RDF 1.2 drafts"
+  license: "MIT OR Apache-2.0"
+  free_option: "Everything; there is no paid edition"
+  version: "0.5.11"
+  released: "2026-09-02"
+  language: Rust (MSRV 1.87)
+  deployment: "Embedded Rust, Python and JavaScript libraries; oxigraph CLI and HTTP server; official Docker image"
+  reasoning_strategy: "None built in"
+  scale: "No current published capacity figure; query evaluation is single-threaded"
+  homepage: https://github.com/oxigraph/oxigraph
+  docs: https://github.com/oxigraph/oxigraph/blob/v0.5.11/cli/README.md
+  repo: https://github.com/oxigraph/oxigraph
+  stars: "1,995"
+  stars_url: https://github.com/oxigraph/oxigraph
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "README: nearly fully conformant with SPARQL 1.1" }
+    sparql_update: { level: full, note: "Empty graphs are tracked, so CREATE and DROP work" }
+    gsp: { level: full, note: "HTTP /store" }
+    federation: { level: full, note: "SPARQL 1.1 Federated Query" }
+    rdf_star: { level: none, note: "0.5 dropped the RDF-star feature; triple terms moved to the RDF 1.2 path" }
+    rdf12: { level: preview, note: "Draft support behind rdf-12. On by default in the CLI, Python and JS; off in the Rust crate" }
+    jsonld: { level: full, note: "JSON-LD 1.1, on by default since 0.5.5" }
+    geosparql: { level: partial, note: "spargeo topology functions, CRS84 only; on by default in the CLI, Python and JS" }
+    shacl: { level: none, note: "Open feature request; not in 0.5.11" }
+    shex: { level: none, note: "Open feature request; not in 0.5.11" }
+    rdfs: { level: none, note: "No built-in inference" }
+    owl: { level: none, note: "No built-in inference" }
+    rules: { level: none, note: "Custom SPARQL functions are not a rule engine" }
+    fulltext: { level: none, note: "Open feature request; not in 0.5.11" }
+    vector: { level: none }
+    llm: { level: none }
+    acid: { level: partial, note: "Repeatable read. RocksDB can miss some concurrent write conflicts" }
+    ha: { level: none, note: "Read-only secondary mode was removed in 0.4" }
+    sharding: { level: none, note: "A distributed database is outside the project's goals" }
+    bulk_load: { level: full, note: "oxigraph load, atomic by default and parallel" }
+    admin_ui: { level: full, note: "YASGUI page on the HTTP server" }
+    docker: { level: full, note: "ghcr.io/oxigraph/oxigraph" }
+    managed: { level: none }
+    sql: { level: none }
+    java_api: { level: none, note: "Rust, Python and JavaScript bindings" }
+    python: { level: full, note: "pyoxigraph: in-memory and RocksDB stores" }
+
+- id: sparq
+  name: sparq
+  short: sparq
+  vendor: sparq project
+  vendor_short: sparq
+  page: /stores/sparq/
+  category: Open source, experimental
+  tags: [Open source, Experimental, Rust, Embeddable]
+  tagline: "An experimental Rust triplestore and SPARQL 1.1 / 1.2 engine: a library, a CLI, an HTTP server, and Python and JavaScript bindings."
+  best_for: "Embedding a permissive Rust engine that materialises RDFS, OWL 2 RL and Notation3, with the pre-1.0 status in view"
+  license: MIT
+  free_option: "Everything; there is no paid edition"
+  version: "0.1.6"
+  released: "2026-10-13"
+  language: Rust (MSRV 1.88)
+  deployment: "Rust library, CLI and HTTP server; Python and JavaScript/WASM bindings; Helm chart; Dockerfile"
+  reasoning_strategy: "Materialised RDFS, OWL 2 RL and Notation3"
+  scale: "No published sparq measurement. The blueprint targets a full Wikidata, about 20 billion triples, on one machine"
+  homepage: https://github.com/sparq-org/sparq
+  docs: https://github.com/sparq-org/sparq/blob/v0.1.6/README.md
+  repo: https://github.com/sparq-org/sparq
+  stars: "13"
+  stars_url: https://github.com/sparq-org/sparq
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "README claims SPARQL 1.1 and 1.2 query. The 0.1.6 protocol report is 21 pass, 2 documented divergences, 0 fail" }
+    sparql_update: { level: full, note: "Atomic SPARQL 1.1 Update. An empty named graph reads as absent" }
+    gsp: { level: full, note: "Read and write. The 0.1.6 report records one divergence: an absent graph reads back as an empty 200" }
+    federation: { level: preview, note: "The service Cargo feature is off in the default build. When enabled, egress is default-deny per host" }
+    rdf_star: { level: none, note: "No RDF-star mode in the v0.1.6 tree. Triple terms are the RDF 1.2 cell" }
+    rdf12: { level: preview, note: "Triple terms are implemented. The query skill says this is not full SPARQL 1.2 conformance" }
+    jsonld: { level: partial, note: "JSON-LD 1.1 crate, and the server negotiates it. CLI framing is still planned" }
+    geosparql: { level: partial, note: "Opt-in sparq-geo, outside the default build. geof functions, WKT and GML, and an R-tree" }
+    shacl: { level: full, note: "SHACL Core and SPARQL constraints in sparq-shacl. Entailment regimes are unsupported. The HTTP endpoint needs the server shacl feature" }
+    shex: { level: none, note: "No ShEx path in the v0.1.6 tree" }
+    rdfs: { level: partial, note: "Materialised RDFS in sparq-reason. The rdf-mt report is 48/48 after the harness adds axiomatic triples the production materializer omits" }
+    owl: { level: partial, note: "Materialised OWL 2 RL, with 13 documented divergences. EL and experimental QL are separate opt-in crates" }
+    rules: { level: partial, note: "Notation3 materialisation, with 4 documented divergences on the w3c/N3 report. RIF Core is a further opt-in" }
+    fulltext: { level: full, note: "BM25 index and text: predicates in sparq-text. The lean WebAssembly bundle omits it" }
+    vector: { level: partial, note: "Opt-in sparq-vectors, outside the default engine build. Embeddings are supplied from outside the crate" }
+    llm: { level: partial, note: "Opt-in sparq-nlq and sparq-introspect, outside the default build and unpublished" }
+    acid: { level: partial, note: "Updates are atomic. --persist fsyncs a WAL before the ack. The default server is in memory and drops updates on restart" }
+    ha: { level: none, note: "The Helm chart pins one replica and says the writable store is unreplicated" }
+    sharding: { level: none, note: "The architecture blueprint targets one machine" }
+    bulk_load: { level: full, note: "CLI build of a memory-mapped index, and streamed gzip, bzip2 and zstd ingest" }
+    admin_ui: { level: preview, note: "Desktop and web workbench. The 0.1.6 bundles are unsigned developer/test installs, and later tools are still stubs" }
+    docker: { level: partial, note: "Dockerfile in the repo. Helm names ghcr.io/sparq-org/sparq-server. An anonymous pull token was refused on 16 October 2026" }
+    managed: { level: none }
+    sql: { level: none, note: "The CLI can import CSV, including R2RML. There is no SQL endpoint" }
+    java_api: { level: none, note: "Rust, Python and JavaScript bindings" }
+    python: { level: partial, note: "pyo3 bindings in the repo, import sparq. PyPI sparq-rdf was unpublished on 16 October 2026" }
+
+- id: rdfox
+  name: RDFox
+  short: RDFox
+  vendor: Oxford Semantic Technologies (Samsung)
+  vendor_short: Oxford Semantic Technologies
+  page: /stores/rdfox/
+  category: Commercial
+  tags: [Commercial, Reasoning, In-memory]
+  tagline: "An in-memory RDF store and Datalog reasoner. It materialises an extended rule language, including OWL 2 RL, and keeps the closure current as the data changes."
+  best_for: "Applications that need fast incremental materialisation of Datalog, OWL 2 RL or SWRL on one machine"
+  license: Proprietary
+  free_option: "Time-limited evaluation key; commercial use needs a paid licence"
+  version: "7.7"
+  released: "2026-09-29"
+  language: "Native binary (C, C++ and Java APIs)"
+  deployment: "Linux, macOS and Windows packages; official Docker images; embeddable library; Helm chart"
+  reasoning_strategy: "Incremental materialisation of Datalog, OWL 2 RL and SWRL"
+  scale: "Vendor says billions of triples in memory; about 45-85 bytes per fact"
+  homepage: https://www.oxfordsemantic.tech/rdfox
+  docs: https://docs.oxfordsemantic.tech/
+  repo: https://github.com/OxfordSemantic
+  repo_label: Examples and Helm
+  stars: "—"
+  stars_note: "Engine is closed source"
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "No DESCRIBE; BNODE takes no argument" }
+    sparql_update: { level: full }
+    gsp: { level: partial, note: "On /content with default or graph. PATCH is not implemented" }
+    federation: { level: partial, note: "SERVICE since 7.5. Variable endpoints are not supported" }
+    rdf_star: { level: none, note: "Not documented in 7.7" }
+    rdf12: { level: none, note: "Not documented in 7.7" }
+    jsonld: { level: none, note: "N-Triples, Turtle, N-Quads, TriG and OWL functional syntax" }
+    geosparql: { level: none, note: "GEODIST and Lucene geospatial search; not GeoSPARQL" }
+    shacl: { level: full, note: "SHACL Core, via a tuple table or a commit procedure. Not inside Datalog rules" }
+    shex: { level: none, note: "Not found in documentation" }
+    rdfs: { level: partial, note: "OWL 2 RL covers the RDFS axioms it includes. A separate TBox rule set is partial" }
+    owl: { level: partial, note: "OWL 2 RL axioms become rules. Other OWL 2 axioms are stored and not fully translated" }
+    rules: { level: full, note: "Datalog with stratified negation and aggregation; SWRL, with some built-ins missing" }
+    fulltext: { level: partial, note: "Lucene and Solr data sources. Lucene is a separate install" }
+    vector: { level: full, note: "SEMSIM and semantic-index tuple tables. Default GGUF model included. Java embedder is experimental" }
+    llm: { level: partial, note: "RDFox Mantix is a separate companion. The engine does not call a model" }
+    acid: { level: full, note: "Serializable; many readers, one writer. Durability needs persistence" }
+    ha: { level: full, note: "Leaderless replicas on a shared file-sequence directory; eventually consistent" }
+    sharding: { level: none, note: "Described as centralized. HA copies the whole store" }
+    bulk_load: { level: full, note: "Parallel import of RDF, rules and OWL axioms" }
+    admin_ui: { level: full, note: "RDFox Console at /console/" }
+    docker: { level: full, note: "oxfordsemantic/rdfox and rdfox-init; x86-64 images" }
+    managed: { level: none, note: "Self-hosted, including on your own cloud. No vendor-operated service found" }
+    sql: { level: full, note: "PostgreSQL, ODBC and SQLite data sources as tuple tables. No SQL endpoint" }
+    java_api: { level: full, note: "JRDFox, in-process, over the native library" }
+    python: { level: partial, note: "No Python API in the 7.7 docs. The REST API is the path for other languages" }
+
+- id: marklogic
+  name: MarkLogic Server
+  short: MarkLogic
+  vendor: Progress Software
+  vendor_short: Progress
+  page: /stores/marklogic/
+  category: Commercial
+  tags: [Commercial, Multi-model, Cluster]
+  tagline: "A multi-model document database. Triples are an index over managed triple documents and over triples embedded in XML and JSON."
+  best_for: "Document applications that also need SPARQL, query-time rules, and a cluster"
+  license: Proprietary
+  free_option: "Developer licence: all features, up to 1 TB, 6 months, development only"
+  version: "12.1.0"
+  released: "2026-09-10"
+  language: "Native server (XQuery, JavaScript, Java and REST APIs)"
+  deployment: "Linux and Windows packages; official Docker images; customer-run cloud; Progress managed hosting"
+  reasoning_strategy: "Query-time rulesets (RDFS, RDFS-Plus, OWL Horst, or custom rules)"
+  scale: "No published triple-count claim. The developer licence allows up to 1 TB"
+  homepage: https://www.progress.com/marklogic
+  docs: https://docs.marklogic.com/
+  repo: https://github.com/marklogic
+  repo_label: Docker and clients
+  stars: "—"
+  stars_note: "Engine is closed source. marklogic-python-client has 9 stars"
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: full, note: "SPARQL 1.1, including SELECT, ASK, CONSTRUCT and DESCRIBE. Queries run against the triple index" }
+    sparql_update: { level: full, note: "Graph update and graph management. Managed triples only; embedded triples are unchanged" }
+    gsp: { level: full, note: "GET, PUT, DELETE, POST and HEAD on /v1/graphs when default or graph is set. Managed triples only" }
+    federation: { level: none, note: "The 12 semantics guide does not document SERVICE" }
+    rdf_star: { level: none, note: "Not documented in 12.1" }
+    rdf12: { level: none, note: "Not documented in 12.1" }
+    jsonld: { level: none, note: "Parsers list RDF/JSON, not JSON-LD" }
+    geosparql: { level: partial, note: "A subset of GeoSPARQL geof functions since MarkLogic 11. Arguments are cts:region values" }
+    shacl: { level: none, note: "Not found in the 12 semantics guide" }
+    shex: { level: none, note: "Not found in the 12 semantics guide" }
+    rdfs: { level: partial, note: "Query-time rdfs.rules approximates RDFS. Off by default" }
+    owl: { level: partial, note: "Query-time OWL Horst and RDFS-Plus. Not OWL 2 RL or DL" }
+    rules: { level: full, note: "Custom rulesets in the MarkLogic ruleset language. Some property-path operators are excluded" }
+    fulltext: { level: full, note: "Universal index. A cts query can restrict a SPARQL query" }
+    vector: { level: full, note: "ANN index over document and TDE vectors. Not a SPARQL vector function" }
+    llm: { level: partial, note: "MarkLogic MCP Server is a separate companion. The engine does not call a model" }
+    acid: { level: full, note: "Multi-statement transactions and MVCC. The developer licence page calls them ACID" }
+    ha: { level: full, note: "Local-disk and shared-disk forest failover, plus database replication" }
+    sharding: { level: full, note: "Forests partition documents, including managed triples, across hosts" }
+    bulk_load: { level: full, note: "mlcp with RDF input, plus sem:rdf-load and sem:rdf-insert" }
+    admin_ui: { level: full, note: "Admin Interface on port 8001; Query Console on port 8000" }
+    docker: { level: full, note: "progressofficial/marklogic-db. Using the server needs a developer or enterprise licence" }
+    managed: { level: full, note: "Progress managed hosting. Data Hub Service pages still describe a managed cloud" }
+    sql: { level: full, note: "SQL and ODBC over TDE and Optic views. Not an external RDBMS layer" }
+    java_api: { level: full, note: "Java Client API: SPARQLQueryManager and GraphManager" }
+    python: { level: partial, note: "Official client. rows.query runs SPARQL against views. Triple-store SPARQL is the generic REST path" }
+
+- id: millenniumdb
+  name: MillenniumDB
+  short: MillenniumDB
+  vendor: Millennium Institute for Foundational Research on Data (IMFD)
+  vendor_short: IMFD
+  page: /stores/millenniumdb/
+  category: Open source, research
+  tags: [Open source, Research, Multi-model]
+  tagline: "A research graph engine for RDF and property graphs. SPARQL 1.1 is fairly complete, and the project says it is not production ready."
+  best_for: "Experiments that want RDF and a property graph in one GPL engine, with the not-production-ready warning in view"
+  license: GPL-2.0
+  free_option: "The engine is GPL-2.0. There is no paid edition"
+  version: "1.0.0"
+  released: "2026-08-17"
+  language: C++
+  deployment: "Single server process; official Docker image; bundled query browser"
+  reasoning_strategy: "None built in"
+  scale: "No published product triple-count claim"
+  homepage: https://github.com/MillenniumDB/MillenniumDB
+  docs: https://github.com/MillenniumDB/MillenniumDB/wiki
+  repo: https://github.com/MillenniumDB/MillenniumDB
+  stars: "267"
+  stars_url: https://github.com/MillenniumDB/MillenniumDB
+  checked: 2026-10-16
+  features:
+    sparql_query: { level: partial, note: "The project says fairly complete SPARQL 1.1. No named graphs, FROM or GRAPH. Negated property sets and regex flags other than i are unsupported" }
+    sparql_update: { level: partial, note: "INSERT DATA and DELETE DATA only, plus custom CREATE INDEX for HNSW and text" }
+    gsp: { level: none, note: "No Graph Store route. Named graphs are unsupported, and GRAPH throws" }
+    federation: { level: full, note: "SERVICE, including SILENT and a variable IRI. The client requests JSON over http or https and rejects a CSV response" }
+    rdf_star: { level: none, note: "Not found in the wiki or the surveyed source" }
+    rdf12: { level: none, note: "Not found in the wiki or the surveyed source" }
+    jsonld: { level: none, note: "Import is Turtle, N-Triples, N3 and RDF/XML. The wiki calls RDF/XML partial" }
+    geosparql: { level: none, note: "geo: is a built-in prefix. No GeoSPARQL functions were found" }
+    shacl: { level: none, note: "Not found in the wiki or the surveyed source" }
+    shex: { level: none, note: "Not found in the wiki or the surveyed source" }
+    rdfs: { level: none, note: "rdfs: is a built-in prefix. No entailment engine was found" }
+    owl: { level: none, note: "owl: is a built-in prefix. No OWL reasoning was found" }
+    rules: { level: none, note: "No rule language was found" }
+    fulltext: { level: full, note: "TEXT_SEARCH over a trie index, prefix or match. The wiki does not describe it" }
+    vector: { level: full, note: "mdbtype:tensorFloat, mdbfn:cosineDistance, and an HNSW index queried with HNSW_TOP_K" }
+    llm: { level: none, note: "No model call in the engine. wukong-engine is a separate repository" }
+    acid: { level: partial, note: "One write transaction in the buffer manager. String rollback is marked unfinished. The wiki does not describe transactions" }
+    ha: { level: none, note: "One server process. No replica in the wiki or the source" }
+    sharding: { level: none, note: "One database directory. No partitioning in the wiki or the source" }
+    bulk_load: { level: full, note: "mdb import of Turtle, N-Triples, N3 and RDF/XML. The wiki calls RDF/XML partial" }
+    admin_ui: { level: full, note: "Bundled query browser on port 4321 while the server runs" }
+    docker: { level: full, note: "imfd/millenniumdb:1.0.0, amd64 and arm64, pushed 17 August 2026. The 30 September dev commit is not a new image" }
+    managed: { level: none, note: "Self-hosted. A Wikidata research endpoint is not a managed product" }
+    sql: { level: none, note: "csv-import builds a GQL or quad-model database. There is no SQL endpoint" }
+    java_api: { level: none, note: "No Java client. The bundled browser is a Java UI. An official JavaScript driver exists" }
+    python: { level: partial, note: "Official WebSocket driver. The documented example is MQL. The wiki also lists it for RDF queries" }

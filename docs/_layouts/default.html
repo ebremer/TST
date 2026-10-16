@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- if page.title %}
+  <title>{{ page.title }} · {{ site.title }}</title>
+  {%- else %}
+  <title>{{ site.title }}</title>
+  {%- endif %}
+  <meta name="description" content="{{ page.description | default: site.description | strip_newlines | escape }}">
+  <meta property="og:title" content="{{ page.title | default: site.title | escape }}">
+  <meta property="og:description" content="{{ page.description | default: site.description | strip_newlines | escape }}">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+  <script>
+    try { var t = localStorage.getItem('tst-theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner{% if page.wide %} wide{% endif %}">
+      <a class="brand" href="{{ '/' | relative_url }}">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="6" cy="16" r="4.5"/><circle cx="26" cy="16" r="4.5"/>
+          <path d="M10.5 16h9.5" /><path d="M17 12.5l3.5 3.5-3.5 3.5" />
+        </svg>
+        <span>RDF Triple Store Tracker</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        {%- assign here = page.url %}
+        <a href="{{ '/comparison/' | relative_url }}"{% if here == '/comparison/' %} aria-current="page"{% endif %}>Comparison</a>
+        <a href="{{ '/stores/' | relative_url }}"{% if here contains '/stores/' %} aria-current="page"{% endif %}>Stores</a>
+        <a href="{{ '/methodology/' | relative_url }}"{% if here == '/methodology/' %} aria-current="page"{% endif %}>Methodology</a>
+        <a href="https://github.com/{{ site.repository }}">GitHub</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap{% if page.wide %} wide{% endif %}">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner{% if page.wide %} wide{% endif %}">
+      <p>Facts checked {{ site.track.checked | date: "%B %-d, %Y" }}. Product details change quickly; confirm against vendor documentation before relying on them.</p>
+      <p><a href="https://github.com/{{ site.repository }}">Source on GitHub</a> · Corrections welcome via <a href="https://github.com/{{ site.repository }}/issues">issues</a> · Content under the MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.theme-toggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      var cur = root.getAttribute('data-theme');
+      if (!cur) cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var next = cur === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('tst-theme', next); } catch (e) {}
+    });
+  </script>
+</body>
+</html>

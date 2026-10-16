@@ -1,0 +1,54 @@
+---
+layout: default
+---
+{%- assign s = site.data.stores | where: "id", page.store | first -%}
+<article class="store">
+  <header class="page-head">
+    <p class="eyebrow"><a href="{{ '/stores/' | relative_url }}">Stores</a> / {{ s.category }}</p>
+    <h1>{{ s.name }}</h1>
+    <p class="lede">{{ s.tagline }}</p>
+  </header>
+
+  <div class="store-grid">
+    <aside class="facts" aria-label="Key facts">
+      <dl>
+        <dt>Steward</dt><dd>{{ s.vendor }}</dd>
+        <dt>Latest release</dt><dd><code>{{ s.version }}</code>{% if s.released %} <span class="muted">({{ s.released }})</span>{% endif %}</dd>
+        <dt>GitHub stars</dt><dd>{% if s.stars_url %}<a href="{{ s.stars_url }}">{{ s.stars }}</a>{% else %}{{ s.stars }}{% endif %}{% if s.stars_note %} <span class="muted">{{ s.stars_note }}</span>{% endif %}</dd>
+        <dt>License</dt><dd>{{ s.license }}</dd>
+        <dt>Free to use</dt><dd>{{ s.free_option }}</dd>
+        <dt>Written in</dt><dd>{{ s.language }}</dd>
+        <dt>Deployment</dt><dd>{{ s.deployment }}</dd>
+        <dt>Links</dt>
+        <dd class="links">
+          <a href="{{ s.homepage }}">Homepage</a>
+          {%- if s.docs %} · <a href="{{ s.docs }}">Docs</a>{% endif %}
+          {%- if s.repo %} · <a href="{{ s.repo }}">{{ s.repo_label | default: "Source" }}</a>{% endif %}
+        </dd>
+        <dt>Facts checked</dt><dd>{{ s.checked | date: "%B %-d, %Y" }}</dd>
+      </dl>
+      <a class="button" href="{{ '/comparison/' | relative_url }}#col-{{ s.id }}">Compare side by side</a>
+    </aside>
+
+    <div class="prose">
+      {{ content }}
+
+      <h2 id="capabilities">Capability summary</h2>
+      <p class="muted">Generated from the same data as the <a href="{{ '/comparison/' | relative_url }}">comparison matrix</a>.</p>
+      {%- for g in site.data.features %}
+      <h3 class="cap-group">{{ g.group }}</h3>
+      <ul class="cap-list">
+        {%- for f in g.items %}
+        {%- assign v = s.features[f.key] %}
+        {%- assign lvl = v.level | default: "unknown" %}
+        <li>
+          <span class="cap-label">{{ f.label }}</span>
+          <span class="lvl lvl-{{ lvl }}">{{ site.data.levels[lvl].label }}</span>
+          {%- if v.note %}<span class="cap-note">{{ v.note }}</span>{% endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+      {%- endfor %}
+    </div>
+  </div>
+</article>

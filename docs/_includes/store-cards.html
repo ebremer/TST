@@ -1,0 +1,14 @@
+<div class="cards">
+  {%- for s in site.data.stores %}
+  <a class="card" href="{{ s.page | relative_url }}">
+    <h3>{{ s.name }}</h3>
+    <p class="vendor">{{ s.vendor }}</p>
+    <p>{{ s.tagline }}</p>
+    <div class="tags">
+      {%- for t in s.tags %}
+      <span class="tag{% if t == 'Open source' %} oss{% elsif t == 'Commercial' %} commercial{% elsif t == 'Managed cloud' %} cloud{% endif %}">{{ t }}</span>
+      {%- endfor %}
+    </div>
+  </a>
+  {%- endfor %}
+</div>

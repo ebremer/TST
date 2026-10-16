@@ -1,0 +1,94 @@
+---
+layout: default
+description: An open, evidence-based survey of RDF triple stores. It compares Apache Jena TDB2, QLever, RDF-HDT, Virtuoso, GraphDB, Stardog, Amazon Neptune, AllegroGraph, Blazegraph, Eclipse RDF4J, Oxigraph, sparq, RDFox, MarkLogic Server and MillenniumDB.
+---
+{%- assign n = 0 %}
+{%- for g in site.data.features %}{% assign n = n | plus: g.items.size %}{% endfor %}
+<section class="hero">
+  <p class="eyebrow">{{ site.track.checked | date: "%B %Y" }}</p>
+  <h1>RDF Triple Store Tracker</h1>
+  <p class="lede">An open, evidence-based survey of RDF triple stores. It compares fifteen: five of the most widely used, plus QLever and RDF-HDT for very large and read-only data, AllegroGraph for partitioned commercial knowledge graphs, MarkLogic Server, a document database with a triple index, RDFox for in-memory incremental reasoning, Blazegraph and Eclipse RDF4J from the open-source Java lineage, Oxigraph, a Rust store you can embed or run as a server, sparq, an experimental pre-1.0 Rust engine, and MillenniumDB, a research engine for RDF and property graphs that its README says is not production ready. For each one it covers what standards it implements, how it reasons, how it scales, and what you need to pay to run it.</p>
+  <div class="hero-meta">
+    <span class="chip"><strong>{{ site.data.stores | size }}</strong> stores</span>
+    <span class="chip"><strong>{{ n }}</strong> capabilities compared</span>
+    <span class="chip">Facts checked <strong>{{ site.track.checked | date: "%b %-d, %Y" }}</strong></span>
+  </div>
+  <div class="cta">
+    <a class="button" href="{{ '/comparison/' | relative_url }}">Open the comparison matrix</a>
+    <a class="button secondary" href="{{ '/methodology/' | relative_url }}">How this was done</a>
+  </div>
+</section>
+
+<section class="section">
+  <h2>At a glance</h2>
+  <div class="table-scroll">
+    <table class="glance">
+      <thead>
+        <tr><th>Store</th><th>Model</th><th>Free to use</th><th>Reasoning</th><th>RDF 1.2</th><th>High availability</th><th>Best fit</th></tr>
+      </thead>
+      <tbody>
+        {%- for s in site.data.stores %}
+        {%- assign r12 = s.features.rdf12.level | default: "unknown" %}
+        {%- assign ha = s.features.ha.level | default: "unknown" %}
+        <tr>
+          <td><a href="{{ s.page | relative_url }}">{{ s.short }}</a></td>
+          <td>{{ s.category }}</td>
+          <td>{{ s.free_option }}</td>
+          <td>{{ s.reasoning_strategy }}</td>
+          <td><span class="lvl lvl-{{ r12 }}">{{ site.data.levels[r12].label }}</span></td>
+          <td><span class="lvl lvl-{{ ha }}">{{ site.data.levels[ha].label }}</span></td>
+          <td>{{ s.best_for }}</td>
+        </tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <h2>What the survey found</h2>
+  <p class="section-intro">Seven patterns stand out once every store is lined up against the same checklist.</p>
+  <div class="findings">
+    <article class="finding">
+      <h3>SPARQL 1.1 is the baseline. RDF 1.2 is not.</h3>
+      <p>Every engine here answers SPARQL 1.1 queries, and all of them accept updates except plain HDT files, which are read-only. <a href="{{ '/stores/jena-tdb2/' | relative_url }}">Jena TDB2</a> and <a href="{{ '/stores/rdf4j/' | relative_url }}">Eclipse RDF4J</a> ship RDF 1.2 / SPARQL 1.2 triple terms in a stable release. RDF4J 6.0 stores triple terms in its memory, native and LMDB databases and replaced its earlier RDF-star APIs. <a href="{{ '/stores/oxigraph/' | relative_url }}">Oxigraph</a> 0.5.11 exposes preliminary RDF 1.2 and SPARQL 1.2 draft support behind the <code>rdf-12</code> feature. The released command-line, Python and JavaScript builds enable that feature; the Rust library does not. The 0.5 line dropped the RDF-star feature and migrates an existing database the first time it is opened. <a href="{{ '/stores/sparq/' | relative_url }}">sparq</a> 0.1.6 stores and queries RDF 1.2 triple terms in an experimental pre-1.0 release. Its query guide says that path is not full SPARQL 1.2 conformance, and the tree has no RDF-star mode. Virtuoso has RDF 1.2 in development and QLever has an open issue for it. GraphDB and Stardog still use the older RDF-star model. <a href="{{ '/stores/allegrograph/' | relative_url }}">AllegroGraph</a> has opt-in RDF-star that Franz still marks experimental; its product page names SPARQL 1.2, and the RDF-star document does not describe triple terms. <a href="{{ '/stores/rdfox/' | relative_url }}">RDFox</a> 7.7 documents SPARQL 1.1 Query with two exceptions, no <code>DESCRIBE</code> and no one-argument <code>BNODE</code>, and its documentation describes neither RDF-star nor RDF 1.2. <a href="{{ '/stores/marklogic/' | relative_url }}">MarkLogic Server</a> 12.1 documents SPARQL 1.1, including SELECT, ASK, CONSTRUCT and DESCRIBE. The 12 semantics guide does not document RDF-star, RDF 1.2, or <code>SERVICE</code>. SPARQL Update changes managed triples only. <a href="{{ '/stores/millenniumdb/' | relative_url }}">MillenniumDB</a> 1.0.0 describes its SPARQL 1.1 support as fairly complete. Named graphs, <code>FROM</code> and <code>GRAPH</code> are unsupported, and SPARQL Update is only <code>INSERT DATA</code> and <code>DELETE DATA</code>. The engine does implement <code>SERVICE</code>. It documents neither RDF-star nor RDF 1.2. Neptune and Blazegraph have neither.</p>
+    </article>
+    <article class="finding">
+      <h3>The biggest public endpoints are moving to QLever.</h3>
+      <p>UniProt moved its endpoint from Virtuoso to <a href="{{ '/stores/qlever/' | relative_url }}">QLever</a> in June 2025. A year later, Wikimedia chose QLever to replace <a href="{{ '/stores/blazegraph/' | relative_url }}">Blazegraph</a> behind the Wikidata Query Service, with migration due by mid-2027. A university-built open-source engine now anchors two of the largest public SPARQL services.</p>
+    </article>
+    <article class="finding">
+      <h3>Reasoning splits into different philosophies.</h3>
+      <p><a href="{{ '/stores/graphdb/' | relative_url }}">GraphDB</a> materialises inferences at commit and retracts them incrementally. <a href="{{ '/stores/blazegraph/' | relative_url }}">Blazegraph</a> materialises RDFS+ and maintains it as data changes, though not in quads mode. <a href="{{ '/stores/stardog/' | relative_url }}">Stardog</a> rewrites queries at run time. <a href="{{ '/stores/allegrograph/' | relative_url }}">AllegroGraph</a> answers with RDFS++ at query time and can materialise an OWL 2 RL subset when the data is static. Virtuoso applies lightweight RDFS rules at query time, and Jena and <a href="{{ '/stores/rdf4j/' | relative_url }}">RDF4J</a> run rule engines in memory. <a href="{{ '/stores/rdfox/' | relative_url }}">RDFox</a> materialises an extended Datalog, translates OWL 2 RL and SWRL into those rules, and maintains the closure as facts and rules change. <a href="{{ '/stores/marklogic/' | relative_url }}">MarkLogic Server</a> applies rules when the query runs. The shipped sets are an optimized RDFS ruleset, RDFS-Plus and OWL Horst, and custom rules are allowed. It does not materialise the closure. <a href="{{ '/stores/sparq/' | relative_url }}">sparq</a> materialises RDFS, OWL 2 RL and Notation3 in a crate the default workspace build includes. OWL 2 EL and an experimental OWL 2 QL rewriter are separate opt-in crates. Neptune, QLever, RDF-HDT, <a href="{{ '/stores/oxigraph/' | relative_url }}">Oxigraph</a> and <a href="{{ '/stores/millenniumdb/' | relative_url }}">MillenniumDB</a> have no built-in inference.</p>
+    </article>
+    <article class="finding">
+      <h3>Scale-out means replicas, or one very big server.</h3>
+      <p><a href="{{ '/stores/allegrograph/' | relative_url }}">AllegroGraph FedShard</a> and <a href="{{ '/stores/blazegraph/' | relative_url }}">Blazegraph</a> both partition writes. FedShard places triples by a key, runs each query on every shard, and keeps shared ontologies in knowledge bases every shard can see. A shard cannot see another shard's instance data, so the partition has to match the questions you ask. Blazegraph's archived release documents a different split: each data service buffers writes in a journal and migrates them onto read-only index segments. <a href="{{ '/stores/marklogic/' | relative_url }}">MarkLogic Server</a> partitions documents, including the documents that hold managed triples, into forests across hosts. A query runs across that cluster. A local-disk failover replica is a copy of one forest, not a second way of splitting the data. Everywhere else, a cluster means a full copy on every node: GraphDB, Stardog, Virtuoso Enterprise and Neptune buy read throughput and availability that way, and capacity stays on one machine. QLever takes the single-machine route and serves Wikidata-scale data from one server. Virtuoso's elastic cluster belongs to its older 7.x commercial line. <a href="{{ '/stores/oxigraph/' | relative_url }}">Oxigraph</a> is a single store. Its architecture notes say a distributed database is not a goal of the project. <a href="{{ '/stores/sparq/' | relative_url }}">sparq</a> is a single store as well. Its Helm chart pins one replica, and the chart says the writable store is unreplicated. <a href="{{ '/stores/rdfox/' | relative_url }}">RDFox</a> is also one in-memory copy. Its high-availability group is further copies of that same store, sharing a directory, not a partition of it. <a href="{{ '/stores/millenniumdb/' | relative_url }}">MillenniumDB</a> is one server process on one database directory. The wiki and the source describe no replication and no partitioning.</p>
+    </article>
+    <article class="finding">
+      <h3>High availability is where the money is.</h3>
+      <p>High availability is an enterprise licence for GraphDB, Stardog and Virtuoso, an external add-on for Jena (RDF Delta), or a hand-off to AWS (<a href="{{ '/stores/neptune/' | relative_url }}">Neptune</a>). <a href="{{ '/stores/allegrograph/' | relative_url }}">AllegroGraph</a> ships multi-master replication in the same binary, inside a 5 million triple cap. <a href="{{ '/stores/blazegraph/' | relative_url }}">Blazegraph</a> documents quorum replication in the GPL tree: HAJournalServer elects a leader through ZooKeeper and commits only when a majority agrees. <a href="{{ '/stores/rdfox/' | relative_url }}">RDFox</a> runs leaderless replicas over a shared file-sequence directory. A commit on one replica becomes visible on the others after they notice it, so the copies are eventually consistent. <a href="{{ '/stores/marklogic/' | relative_url }}">MarkLogic Server</a> fails a forest over to a local-disk replica or a shared-disk host, and copies journals to another cluster for disaster recovery. The developer licence includes both. Production use needs a paid licence. Read-only <a href="{{ '/stores/hdt/' | relative_url }}">HDT</a> files are easy to copy to as many servers as you like. <a href="{{ '/stores/millenniumdb/' | relative_url }}">MillenniumDB</a> is a single process, and neither the wiki nor the source describes a replica.</p>
+    </article>
+    <article class="finding">
+      <h3>"Free" means very different things.</h3>
+      <p>Jena, QLever, the HDT libraries, <a href="{{ '/stores/rdf4j/' | relative_url }}">Eclipse RDF4J</a>, <a href="{{ '/stores/oxigraph/' | relative_url }}">Oxigraph</a> and <a href="{{ '/stores/sparq/' | relative_url }}">sparq</a> give you everything. sparq is MIT, with no paid edition, and the 0.1.6 release is still experimental. <a href="{{ '/stores/millenniumdb/' | relative_url }}">MillenniumDB</a> is GPL-2.0, with no paid edition, and the README says it is not production ready. <a href="{{ '/stores/virtuoso/' | relative_url }}">Virtuoso</a> gives you a full single-server engine under GPLv2, and <a href="{{ '/stores/blazegraph/' | relative_url }}">Blazegraph</a> publishes the server, the replication cluster and the scale-out code under GPLv2 as well. GraphDB Free is capped at one core and two concurrent queries, and needs a requested licence. <a href="{{ '/stores/allegrograph/' | relative_url }}">AllegroGraph</a> Free holds under 5 million triples with no licence key. Stardog's free tier is a hosted instance capped at 1M edges, and Neptune offers a 30-day trial. <a href="{{ '/stores/rdfox/' | relative_url }}">RDFox</a> starts only with a time-limited licence key. The published evaluation agreement allows evaluation, and the term is the expiry date on that key. Commercial prices are not published. <a href="{{ '/stores/marklogic/' | relative_url }}">MarkLogic Server</a>'s developer licence includes every feature, including clustering and high availability, for up to 1 TB. The key lasts six months, can be renewed, and is not for production.</p>
+    </article>
+    <article class="finding">
+      <h3>AI features cluster in the commercial products.</h3>
+      <p>GraphDB (Talk to Your Graph, an MCP server, vector connectors), Stardog (Voicebox), <a href="{{ '/stores/allegrograph/' | relative_url }}">AllegroGraph</a> (GraphTalker, native vector stores, an MCP server) and Virtuoso Enterprise (OPAL with MCP) are adding LLM tooling quickly. <a href="{{ '/stores/sparq/' | relative_url }}">sparq</a>, still experimental and pre-1.0, documents an opt-in natural-language-to-SPARQL loop and vector search, both outside its default build. <a href="{{ '/stores/millenniumdb/' | relative_url }}">MillenniumDB</a>, which the README still calls not production ready, stores one-dimensional tensors and searches them with an HNSW index from SPARQL. It does not call a language model. The other open-source engines document none. <a href="{{ '/stores/rdfox/' | relative_url }}">RDFox</a> 7.7 ships <code>SEMSIM</code> and semantic-index tuple tables for embedding similarity. RDFox Mantix, announced in September 2026, is a separate companion: a language model helps phrase the question, and RDFox computes the answer. <a href="{{ '/stores/marklogic/' | relative_url }}">MarkLogic Server</a> 12 indexes vectors for approximate nearest-neighbor search and can mix that with full-text and graph queries. The vectors live in documents and template columns. MarkLogic MCP Server is a separate companion. Neptune's vector and GraphRAG features live in Neptune Analytics, which has no SPARQL endpoint.</p>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <h2>The stores</h2>
+  <p class="section-intro">Each profile covers architecture, standards, reasoning, operations, strengths and caveats, with the sources behind every fact.</p>
+  {% include store-cards.html %}
+</section>
+
+<section class="section">
+  <div class="callout">
+    <h3 style="margin-top:0">What this survey is, and isn't</h3>
+    <p>This is a documentation survey. Every cell in the matrix comes from vendor documentation, release notes and source repositories, checked on {{ site.track.checked | date: "%B %-d, %Y" }}. Nothing has been benchmarked yet. If you spot an error, please <a href="https://github.com/{{ site.repository }}/issues">open an issue</a>.</p>
+  </div>
+</section>

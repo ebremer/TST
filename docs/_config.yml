@@ -1,0 +1,27 @@
+title: RDF Triple Store Tracker
+description: >-
+  An open, evidence-based survey of RDF triple stores: standards support,
+  reasoning, scale-out, licensing and operations, compared side by side.
+url: "https://ebremer.github.io"
+baseurl: "/TST"
+repository: ebremer/TST
+
+# Date the store facts were last checked, shown in the footer and on the home page.
+track:
+  checked: 2026-10-16
+
+permalink: pretty
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+plugins:
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - CLAUDE.md
+  - vendor

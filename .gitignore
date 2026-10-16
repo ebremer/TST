@@ -1,0 +1,11 @@
+# Jekyll build output
+docs/_site/
+docs/.sass-cache/
+docs/.jekyll-cache/
+docs/.jekyll-metadata
+docs/vendor/
+docs/.bundle/
+docs/Gemfile.lock
+
+# Claude Code project instructions (keep local)
+CLAUDE.md
